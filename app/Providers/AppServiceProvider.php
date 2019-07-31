@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\FileService;
+use App\Utilities\PatternUtility;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->when(FileService::class)
+                  ->needs(PatternUtility::class)
+                  ->give(function () {
+                      return new PatternUtility('page{id}.json');
+                  });
     }
 }

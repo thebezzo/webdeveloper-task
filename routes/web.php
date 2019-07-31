@@ -12,5 +12,11 @@
 */
 
 $router->get('/', function () use ($router) {
+    return view('welcome');
     return $router->app->version();
+});
+
+$router->group(['prefix' => 'api/items', 'middleware' => 'item'], function () use ($router) {
+    $router->get('/', 'ItemController@showFirstPage');
+    $router->get('/{pageNum}', 'ItemController@showPage');
 });

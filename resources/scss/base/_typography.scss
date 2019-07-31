@@ -1,0 +1,26 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    -webkit-font-smoothing: antialiased; /* Chrome, Safari */
+    -moz-osx-font-smoothing: grayscale; /* Firefox */
+    background-color: #E0DFDF;
+}
+
+@for $i from 1 through 6 {
+    h#{$i} {
+        margin-top: 0;
+    }
+}
+
+p {
+    margin-top: 0;
+}
+
+input {
+    box-sizing: border-box;
+}
+
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
