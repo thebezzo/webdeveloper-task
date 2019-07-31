@@ -67,14 +67,17 @@ class ItemsServiceTest extends TestCase
      * @test
      * @dataProvider pointer_expectation_provider
      */
-    public function will_calculate_pointer_correctly($provided, $expected): void
+    public function will_calculate_pointer_correctly($provided, $pointer, $expected): void
     {
         // Given
         $this->fileService->shouldReceive('findFiles')
             ->andReturn($provided);
+        $this->fileService->shouldReceive('getFilesContent')
+            ->withAnyArgs()
+            ->andReturn([self::$firstPageData]);
         $itemService = new ItemService($this->fileService);
         // When
-        $itemService->getPage(1);
+        $itemService->getPage($pointer);
         $result = $itemService->getNextPage();
         // Then
         $this->assertEquals(
@@ -86,9 +89,9 @@ class ItemsServiceTest extends TestCase
     public function pointer_expectation_provider(): array
     {
         return [
-            [['page1.json', 'page2.json'], 2],
-            [['page1.json'], -1],
-            [[], -1],
+            [['page1.json', 'page2.json'], 1, 2],
+            [['page1.json', 'page2.json'], 2, -1],
+            [['page1.json'], 1, -1],
         ];
     }
 

@@ -22,19 +22,19 @@ class ItemController extends Controller
         $this->itemService = $itemService;
     }
 
-    public function showFirstPage()
-    {
-        return [
-            'data' => $this->itemService->getPage(1),
-            'next_page' => $this->itemService->getNextPage(),
-            'total' => $this->itemService->checkPagesCount()
-        ];
-    }
-
     public function showPage(int $id)
     {
+        try {
+            $data = $this->itemService->getPage($id);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
+        } catch (\JsonException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Please contact administrator'], 500);
+        }
         return [
-            'data' => $this->itemService->getPage($id),
+            'data' => $data,
             'next_page' => $this->itemService->getNextPage(),
             'total' => $this->itemService->checkPagesCount()
         ];

@@ -37,13 +37,12 @@ class ItemService
 
     public function getPage(int $index)
     {
+        if ($index > $this->maxPointer) {
+            throw new \InvalidArgumentException('Not found', 404);
+        }
         $this->pointer = $index <= 0 ? 1 : $index;
         $this->next();
-        try {
-            return $this->fileService->getFilesContent([$this->fileList[$this->pointer-1]])[0];
-        } catch (\Exception $e) {
-            return [];
-        }
+        return $this->fileService->getFilesContent([$this->fileList[$this->pointer-1]])[0];
     }
 
     public function getNextPage()

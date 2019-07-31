@@ -55,12 +55,12 @@ class FileServiceTest extends TestCase
     public function will_find_files_correctly($provided, $expected): void
     {
         // Given
-        $fileService = self::$fileService;
-        // When
         Storage::shouldReceive('files')
             ->withAnyArgs()
             ->andReturn($provided)
             ->once();
+        $fileService = self::$fileService;
+        // When
         $result = $fileService->findFiles();
         // Then
         $this->assertEquals(
@@ -91,12 +91,12 @@ class FileServiceTest extends TestCase
     public function will_read_single_file(): void
     {
         // Given
-        $fileService = self::$fileService;
-        // When
         Storage::shouldReceive('get')
             ->once()
             ->with('page1.json')
             ->andReturn(self::$firstPageData);
+        $fileService = self::$fileService;
+        // When
         $result = $fileService->getFilesContent(['page1.json']);
         // Then
         $this->assertEquals(
@@ -109,8 +109,6 @@ class FileServiceTest extends TestCase
     public function will_read_multiple_files(): void
     {
         // Given
-        $fileService = self::$fileService;
-        // When
         Storage::shouldReceive('get')
             ->with('page1.json')
             ->andReturn(self::$firstPageData)
@@ -119,6 +117,8 @@ class FileServiceTest extends TestCase
             ->with('page2.json')
             ->andReturn(self::$secondPageData)
             ->once();
+        $fileService = self::$fileService;
+        // When
         $result = $fileService->getFilesContent(['page1.json', 'page2.json']);
         // Then
         $this->assertEquals(
@@ -128,15 +128,15 @@ class FileServiceTest extends TestCase
     }
 
     /** @test */
-    public function will_throw_exception_on_broken_data(): void
+    public function will_throw_exception_for_broken_data(): void
     {
         // Given
-        $fileService = self::$fileService;
-        // When
         Storage::shouldReceive('get')
             ->once()
             ->withAnyArgs()
             ->andReturn(self::$brokenPageData);
+        $fileService = self::$fileService;
+        // When
         $this->expectException(\JsonException::class);
         $result = $fileService->getFilesContent(['page1.json']);
     }

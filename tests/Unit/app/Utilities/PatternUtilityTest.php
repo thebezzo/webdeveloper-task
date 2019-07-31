@@ -34,7 +34,7 @@ class PatternUtilityTest extends TestCase
      * @test
      * @dataProvider invalid_pattern_provider
      */
-    public function will_throw_exception($pattern): void
+    public function will_throw_exception_for_invalid_pattern($pattern): void
     {
         // Given
         $patternUtility = new PatternUtility($pattern);

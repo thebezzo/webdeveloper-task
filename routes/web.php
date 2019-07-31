@@ -17,6 +17,6 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api/items', 'middleware' => 'item'], function () use ($router) {
-    $router->get('/', 'ItemController@showFirstPage');
+    $router->get('/', 'ItemController@showPage');
     $router->get('/{pageNum}', 'ItemController@showPage');
 });
